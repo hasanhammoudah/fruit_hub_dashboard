@@ -1,11 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruit_hub_dashboard/core/widgets/custom_button.dart';
 import 'package:fruit_hub_dashboard/core/widgets/custom_text_filed.dart';
 import 'package:fruit_hub_dashboard/features/add_product/domain/entities/add_product_input_entity.dart';
+import 'package:fruit_hub_dashboard/features/add_product/presentation/manager/cubit/add_product_cubit.dart';
+import 'package:fruit_hub_dashboard/features/add_product/presentation/views/add_product_view.dart';
 import 'package:fruit_hub_dashboard/features/add_product/presentation/views/widgets/image_filed.dart';
 import 'package:fruit_hub_dashboard/features/add_product/presentation/views/widgets/is_featured_check_box.dart';
+import 'package:fruit_hub_dashboard/features/add_product/presentation/views/widgets/is_organic_check_box.dart';
 
 class AddProductViewBody extends StatefulWidget {
   const AddProductViewBody({super.key});
@@ -19,9 +23,10 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
   late String name, code, description;
-  late num price;
+  late num price, expirationMonths, numberOfCalories, unitAmount;
   File? image;
   bool isFeatured = false;
+  bool isOrganic = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +53,36 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
                   price = num.parse(value!);
                 },
                 hintText: 'Product Price',
+                textInputType: TextInputType.number,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              CustomTextFormField(
+                onSaved: (value) {
+                  expirationMonths = num.parse(value!);
+                },
+                hintText: 'Expiration Months',
+                textInputType: TextInputType.number,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              CustomTextFormField(
+                onSaved: (value) {
+                  numberOfCalories = num.parse(value!);
+                },
+                hintText: 'Number of Calories',
+                textInputType: TextInputType.number,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              CustomTextFormField(
+                onSaved: (value) {
+                  unitAmount = num.parse(value!);
+                },
+                hintText: 'Unit Amount',
                 textInputType: TextInputType.number,
               ),
               const SizedBox(
@@ -82,6 +117,14 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
               const SizedBox(
                 height: 16,
               ),
+              IsOrganicCheckBox(
+                onChanged: (value) {
+                  isOrganic = value;
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
               ImageField(
                 onFileChanged: (image) {
                   this.image = image!;
@@ -99,10 +142,16 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
                           image: image!,
                           name: name,
                           code: code,
+                          reviews: [],
                           description: description,
                           price: price,
                           isFeatured: isFeatured,
+                          expirationsMonths: expirationMonths.toInt(),
+                          numberOfCalories: numberOfCalories.toInt(),
+                          unitAmount: unitAmount.toInt(),
+                          isOrganic: isOrganic,
                         );
+                        context.read<AddProductCubit>().addProduct(input);
                       } else {
                         autovalidateMode = AutovalidateMode.always;
                         setState(() {});

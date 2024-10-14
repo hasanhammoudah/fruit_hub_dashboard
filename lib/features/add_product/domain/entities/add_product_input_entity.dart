@@ -10,24 +10,25 @@ class AddProductInputEntity {
   final File image;
   final bool isFeatured;
   String? imageUrl;
-  // final int expirationsMonths;
+  final int expirationsMonths;
   final bool isOrganic;
-  // final int numberOfCalories;
+  final int numberOfCalories;
   final num avgRating = 0;
   final num ratingCount = 0;
-  // final int unitAmount;
-  // final List<ReviewEntity> reviews;
-  AddProductInputEntity(
-      {required this.name,
-      required this.code,
-      required this.description,
-      required this.price,
-      // required this.reviews,
-      // required this.expirationsMonths,
-      // required this.numberOfCalories,
-      // required this.unitAmount,
-      this.isOrganic = false,
-      required this.image,
-      required this.isFeatured,
-      this.imageUrl});
+  final int unitAmount;
+  final List<ReviewEntity> reviews;
+  AddProductInputEntity({
+    required this.name,
+    required this.code,
+    required this.description,
+    required this.price,
+    required this.reviews,
+    required this.expirationsMonths,
+    required this.numberOfCalories,
+    required this.unitAmount,
+    this.isOrganic = false,
+    required this.image,
+    required this.isFeatured,
+    this.imageUrl,
+  });
 }
