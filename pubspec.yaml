@@ -46,6 +46,7 @@ dependencies:
   bloc: ^8.1.4
   cloud_firestore: ^5.4.4
   modal_progress_hud_nsn: ^0.5.1
+  supabase_flutter: ^2.8.1
 
 dev_dependencies:
   flutter_test:
